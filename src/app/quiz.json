@@ -1,0 +1,157 @@
+[
+    {
+        "question": "Which continent is India in?",
+        "uniquename": "continent",
+        "singleChoice": true,
+        "choices": [
+            {
+                "name": "continent1",
+                "text": "Asia"
+            },
+            {
+                "name": "continent2",
+                "text": "Europe"
+            },
+            {
+                "name": "continent3",
+                "text": "Africa"
+            },
+            {
+                "name": "continent4",
+                "text": "Antarctica"
+            }
+        ],
+        "answer": "Asia"
+    },
+    {
+        "question": "Which of the following are programming languages?",
+        "uniquename": "programming_languages",
+        "singleChoice": false,
+        "choices": [
+            {
+                "name": "lang1",
+                "text": "Python"
+            },
+            {
+                "name": "lang2",
+                "text": "Java"
+            },
+            {
+                "name": "lang3",
+                "text": "HTML"
+            },
+            {
+                "name": "lang4",
+                "text": "C++"
+            }
+        ],
+        "answer": [
+            "Python",
+            "Java",
+            "C++"
+        ]
+    },
+    {
+        "question": "What is the capital of France?",
+        "uniquename": "capital_france",
+        "singleChoice": true,
+        "choices": [
+            {
+                "name": "city1",
+                "text": "Paris"
+            },
+            {
+                "name": "city2",
+                "text": "London"
+            },
+            {
+                "name": "city3",
+                "text": "Berlin"
+            },
+            {
+                "name": "city4",
+                "text": "Madrid"
+            }
+        ],
+        "answer": "Paris"
+    },
+    {
+        "question": "Which of the following are mammals?",
+        "uniquename": "mammals",
+        "singleChoice": false,
+        "choices": [
+            {
+                "name": "animal1",
+                "text": "Dolphin"
+            },
+            {
+                "name": "animal2",
+                "text": "Shark"
+            },
+            {
+                "name": "animal3",
+                "text": "Elephant"
+            },
+            {
+                "name": "animal4",
+                "text": "Crocodile"
+            }
+        ],
+        "answer": [
+            "Dolphin",
+            "Elephant"
+        ]
+    },
+    {
+        "question": "Who wrote 'Hamlet'?",
+        "uniquename": "hamlet_author",
+        "singleChoice": true,
+        "choices": [
+            {
+                "name": "author1",
+                "text": "William Shakespeare"
+            },
+            {
+                "name": "author2",
+                "text": "Charles Dickens"
+            },
+            {
+                "name": "author3",
+                "text": "Jane Austen"
+            },
+            {
+                "name": "author4",
+                "text": "Leo Tolstoy"
+            }
+        ],
+        "answer": "William Shakespeare"
+    },
+    {
+        "question": "Which of these are primary colors?",
+        "uniquename": "primary_colors",
+        "singleChoice": false,
+        "choices": [
+            {
+                "name": "color1",
+                "text": "Red"
+            },
+            {
+                "name": "color2",
+                "text": "Green"
+            },
+            {
+                "name": "color3",
+                "text": "Blue"
+            },
+            {
+                "name": "color4",
+                "text": "Yellow"
+            }
+        ],
+        "answer": [
+            "Red",
+            "Blue",
+            "Yellow"
+        ]
+    }
+]
