@@ -3,9 +3,6 @@ import { useEffect, useState } from "react"
 import QuizHook from "./QuizHook"
 import { useRouter } from 'next/navigation'
 
-
-
-
 export const QuizLayout = ({ quizDatas }) => {
     const router = useRouter()
     const [checkboxValue, setcheckboxValue] = QuizHook([])
@@ -17,47 +14,74 @@ export const QuizLayout = ({ quizDatas }) => {
             setcheckboxValue((prev) => {
                 return {
                     ...prev,
-                    [name]: !singleChoice ? [...(prev?.[name] !== undefined ? prev?.[name] : ""), value] : value,
+                    [name]: !singleChoice ? [value, ...(prev?.[name] !== undefined ? prev?.[name] : "")] : value,
+                }
+            })
+            setCheckErrors({
+                ...checkErrors,
+                [name]: {
                     containsValue: true
                 }
             })
         } else {
 
             setcheckboxValue((prev) => {
-
                 return {
                     ...prev,
-                    [name]: !singleChoice ?
-                        [...(prev?.[name] !== undefined ? prev?.[name].filter(nm => nm !== value) : "")]
-                        : value,
-                    containsValue: prev?.[name].length <= 1 ? false : true
+                    [name]:
+                        !singleChoice ?
+                            [...(prev?.[name] !== undefined ? prev?.[name]?.filter(nm => nm !== value) : "")]
+                            : value,
+
+                }
+            })
+            setCheckErrors((prev) => {
+                return {
+                    ...checkErrors,
+                    [name]: {
+                        containsValue: checkboxValue?.[name]?.length === 1 ? false : true
+                    }
                 }
             })
         }
-        // console.log(checkboxValue)
     }
     useEffect(() => {
+        quizDatas?.map((datas, i) => {
+            setCheckErrors((prev) => {
+                return {
+                    ...prev,
+                    [datas.uniquename]: {
+                        containsValue: false
+                    }
+                }
+            })
+        })
 
-
-        console.log(checkboxValue);
-
-    }, [checkboxValue])
+    }, [])
 
     const HandleQuizSubmit = (e) => {
         e.preventDefault()
         let convertObj = new URLSearchParams(checkboxValue).toString()
+        setCheckErrors({
+            ...checkErrors,
+            submitTrigger: true
+        })
+
+        let getTrueVal = Object.values(checkErrors).every(err => {
+            return err.containsValue !== false
+
+        })
+        if (getTrueVal) {
+            router.push(
+                `/results?${convertObj}`,
+            )
+        }
 
 
-        router.push(
-            `/results?${convertObj}`,
-
-        )
     }
     return (
         <form onSubmit={HandleQuizSubmit}>
             {quizDatas?.map((datas, i) => {
-                console.log(checkboxValue);
-                
                 return (
                     <div key={i}>
                         <h2>{datas.question}</h2>
@@ -67,18 +91,18 @@ export const QuizLayout = ({ quizDatas }) => {
                                     datas.singleChoice ?
 
                                         <div className='inputWrap' key={j}>
-                                            <input type="radio" name={datas.uniquename} id={choice.name} value={choice.text} onChange={(e) => SelectHandler(e, datas.singleChoice)} />
+                                            <input type="radio" name={datas.uniquename} id={choice.name} value={choice.text} onInput={(e) => SelectHandler(e, datas.singleChoice)} />
                                             <label htmlFor={choice.name}>{choice.text}</label>
                                         </div>
 
                                         : <div className='inputWrap' key={j}>
-                                            <input type="checkbox" name={datas.uniquename} id={choice.name} value={choice.text} onChange={(e) => SelectHandler(e, datas.singleChoice)} />
+                                            <input type="checkbox" name={datas.uniquename} id={choice.name} value={choice.text} onInput={(e) => SelectHandler(e, datas.singleChoice)} />
                                             <label htmlFor={choice.name}>{choice.text}</label>
                                         </div>
 
                                 )
                             })}
-                            <p className="">{checkboxValue?.[datas.uniquename]?.containsValue?.toString()}</p>
+                            <p className="">{checkErrors?.submitTrigger && !checkErrors?.[datas.uniquename]?.containsValue && "Kindly Fill this"}</p>
                         </div>
                     </div>
                 )
