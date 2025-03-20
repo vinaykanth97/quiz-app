@@ -1,15 +1,14 @@
 "use client"
 import { useEffect, useState } from "react"
-import QuizHook from "./QuizHook"
+import { QuizHook, SubmitValidation } from "./QuizHook"
 import { useRouter } from 'next/navigation'
 
 export const QuizLayout = ({ quizDatas }) => {
     const router = useRouter()
-    const [checkboxValue, setcheckboxValue] = QuizHook([])
-    const [checkErrors, setCheckErrors] = useState([])
+    const [checkboxValue, setcheckboxValue, checkErrors, setCheckErrors] = QuizHook([])
+
     const SelectHandler = (e, singleChoice) => {
         let { name, value, checked } = e.target
-
         if (checked) {
             setcheckboxValue((prev) => {
                 return {
@@ -24,7 +23,6 @@ export const QuizLayout = ({ quizDatas }) => {
                 }
             })
         } else {
-
             setcheckboxValue((prev) => {
                 return {
                     ...prev,
@@ -35,7 +33,7 @@ export const QuizLayout = ({ quizDatas }) => {
 
                 }
             })
-            setCheckErrors((prev) => {
+            setCheckErrors(() => {
                 return {
                     ...checkErrors,
                     [name]: {
@@ -60,24 +58,12 @@ export const QuizLayout = ({ quizDatas }) => {
     }, [])
 
     const HandleQuizSubmit = (e) => {
-        e.preventDefault()
-        let convertObj = new URLSearchParams(checkboxValue).toString()
-        setCheckErrors({
-            ...checkErrors,
-            submitTrigger: true
-        })
-
-        let getTrueVal = Object.values(checkErrors).every(err => {
-            return err.containsValue !== false
-
-        })
-        if (getTrueVal) {
+        let submitChecks = SubmitValidation(e, checkboxValue, setCheckErrors, checkErrors)
+        if (submitChecks.checkFilled) {
             router.push(
-                `/results?${convertObj}`,
+                `/results?${submitChecks.urlParam}`,
             )
         }
-
-
     }
     return (
         <form onSubmit={HandleQuizSubmit}>

@@ -23,7 +23,8 @@ export default async function page(req) {
     return (
         <>
             {quizData.map((data, i) => {
-                let covtArr = [data?.answer]
+                let covtArr = typeof data.answer !== "object" ? [data.answer] : data.answer
+
                 let checkTypeAnswer = getFormattedArr?.[data?.uniquename]?.sort().toString() === covtArr?.sort()?.toString() ? "Correct" : "Incorrect"
 
                 return (
