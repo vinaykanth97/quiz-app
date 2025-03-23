@@ -1,6 +1,5 @@
 "use client"
 import { useState } from "react"
-
 export function QuizHook(value) {
     const [checkboxValue, setcheckboxValue] = useState(value)
     const [checkErrors, setCheckErrors] = useState(value)
@@ -12,9 +11,9 @@ export function QuizHook(value) {
     ]
 }
 
-export function SubmitValidation(e, checkboxValue, setCheckErrors, checkErrors) {
+export function SubmitValidation(e, checkboxValue, setCheckErrors, checkErrors, router) {
     e.preventDefault()
-    let convertObj = new URLSearchParams(checkboxValue).toString()
+    sessionStorage.setItem("quizanswers", JSON.stringify(checkboxValue))
     setCheckErrors({
         ...checkErrors,
         submitTrigger: true
@@ -23,8 +22,12 @@ export function SubmitValidation(e, checkboxValue, setCheckErrors, checkErrors) 
     let getTrueVal = Object.values(checkErrors).every(err => {
         return err.containsValue !== false
     })
+    if (getTrueVal) {
+        router.push(
+            `/results`,
+        )
+    }
     return {
         checkFilled: getTrueVal,
-        urlParam: convertObj
     }
 }

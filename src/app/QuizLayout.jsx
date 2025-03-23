@@ -54,19 +54,11 @@ export const QuizLayout = ({ quizDatas }) => {
                 }
             })
         })
-
     }, [])
 
-    const HandleQuizSubmit = (e) => {
-        let submitChecks = SubmitValidation(e, checkboxValue, setCheckErrors, checkErrors)
-        if (submitChecks.checkFilled) {
-            router.push(
-                `/results?${submitChecks.urlParam}`,
-            )
-        }
-    }
+
     return (
-        <form onSubmit={HandleQuizSubmit}>
+        <form onSubmit={(e) => SubmitValidation(e, checkboxValue, setCheckErrors, checkErrors, router)}>
             {quizDatas?.map((datas, i) => {
                 return (
                     <div key={i}>
